@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from './routing/layout'
+import Layout from './routing/Layout'
 import { createBrowserRouter,Route,RouterProvider } from 'react-router-dom'
 import { Home, Login, Signup,Feed } from './pages'
 
