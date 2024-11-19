@@ -1,0 +1,1 @@
+//Create a user store and some methods for checking if logged oin or not 

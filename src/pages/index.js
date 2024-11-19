@@ -1,6 +1,6 @@
-import Home from "./Welcome"
+import Welcome from "./Welcome"
 import Signup from "./Signup"
 import Login from "./Login"
-import Feed from "./Feed"
+import Home from "./Home"
 
-export {Home,Signup,Login,Feed}
+export {Welcome,Signup,Login,Home}

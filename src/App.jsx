@@ -1,7 +1,8 @@
 import React from 'react'
 import Layout from './routing/Layout'
 import { createBrowserRouter,Route,RouterProvider } from 'react-router-dom'
-import { Home, Login, Signup,Feed } from './pages'
+import { Welcome, Login, Signup,Home } from './pages'
+import Requests from './pages/Requests'
 
 
 function App() {
@@ -11,9 +12,10 @@ function App() {
       element:<Layout />,
       children:[
         {path:"/signup", element:<Signup />},
-        {path:"/welcome", element:<Home />},
+        {path:"/welcome", element:<Welcome />},
         {path:"/login", element:<Login />},
-        {path:"/feed", element:<Feed />},
+        {path:"/home", element:<Home />},
+        {path:"/requests", element:<Requests />},
       ]
 
     }
