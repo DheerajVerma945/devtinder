@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -13,23 +13,33 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    if (!email.trim() || !password) {
+      setError("Email and password cannot be empty.");
+      return;
+    }
+  
     setError(null);
     setLoader(true);
     setSuccessMessage(null);
-    
+  
     try {
       const url = "https://devtinder0backend.onrender.com/login";
-      const response = await axios.post(url, { emailId: email, password });
+      const response = await axios.post(
+        url,
+        { emailId: email.trim(), password },
+        { withCredentials: true }
+      );
       setSuccessMessage(response.data.message);
       navigate("/feed");
-      setError(null);
     } catch (err) {
-      setError(err.response?.data?.error || 'An unexpected error occurred. Please try again later.');
-      setSuccessMessage(null);
+      const errorMsg =
+        err.response?.data?.error || "An unexpected error occurred. Please try again later.";
+      setError(errorMsg);
     } finally {
       setLoader(false);
     }
   };
+  
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100 text-gray-800 relative">
