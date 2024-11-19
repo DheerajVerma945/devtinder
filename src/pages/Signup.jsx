@@ -8,6 +8,7 @@ function Signup() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
@@ -37,9 +38,7 @@ function Signup() {
       const response = await axios.post(url, { firstName, lastName, emailId: email, password });
       setSuccessMessage('You are registered successfully!');
       setError('');
-      setTimeout(() => {
-        navigate('/login');
-      }, 1500);
+      navigate('/login');
     } catch (err) {
       setError(err.response?.data?.error || 'An unexpected error occurred.');
     } finally {
@@ -48,21 +47,22 @@ function Signup() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 text-gray-800">
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 text-gray-800 relative">
+      {loader && (
+        <div className="absolute inset-0 bg-gray-500 bg-opacity-50 z-40 flex items-center justify-center">
+          <div className="flex space-x-2">
+            <div className="w-4 h-4 bg-green-600 rounded-full animate-bounce1"></div>
+            <div className="w-4 h-4 bg-green-600 rounded-full animate-bounce2"></div>
+            <div className="w-4 h-4 bg-green-600 rounded-full animate-bounce3"></div>
+          </div>
+        </div>
+      )}
       <h1 className="text-3xl font-bold mb-6">Sign Up</h1>
       <div className="bg-white shadow-md rounded px-8 py-6 w-full max-w-md relative">
         {successMessage && <p className="text-green-500 text-sm mb-4">{successMessage}</p>}
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-        {loader && (
-          <div className="absolute inset-0 bg-gray-500 bg-opacity-50 z-40 flex items-center justify-center">
-            <div className="flex space-x-2">
-              <div className="w-4 h-4 bg-green-600 rounded-full animate-bounce"></div>
-              <div className="w-4 h-4 bg-green-600 rounded-full animate-bounce delay-400"></div>
-              <div className="w-4 h-4 bg-green-600 rounded-full animate-bounce delay-800"></div>
-            </div>
-          </div>
-        )}
+
 
         <div className="mb-4">
           <label className="block text-sm font-medium mb-2">First Name</label>
