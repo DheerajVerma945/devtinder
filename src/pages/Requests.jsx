@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { baseUrl } from "../assets/baseUrl";
 
 function Requests() {
   const [requests, setRequests] = useState([]);
@@ -10,7 +11,7 @@ function Requests() {
     const getRequests = async () => {
       try {
         const response = await axios.get(
-          "https://devtinder0backend.onrender.com/user/requests/recieved",
+          `${baseUrl}user/requests/recieved`,
           { withCredentials: true }
         );
         setRequests(response.data.data);
@@ -36,7 +37,7 @@ function Requests() {
   const handleAccept = async (id) => {
     try {
       await axios.post(
-        `https://devtinder0backend.onrender.com/request/review/accepted/${id}`,
+        `${baseUrl}request/review/accepted/${id}`,
         {},
         { withCredentials: true }
       );
@@ -49,7 +50,7 @@ function Requests() {
   const handleReject = async (id) => {
     try {
       await axios.post(
-        `https://devtinder0backend.onrender.com/request/review/rejected/${id}`,
+        `${baseUrl}request/review/rejected/${id}`,
         {},
         { withCredentials: true }
       );
