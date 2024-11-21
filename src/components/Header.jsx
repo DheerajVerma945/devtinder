@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { profileThunk } from "../store/userSlice";
-import { IoMdNotifications } from "react-icons/io";
+import { IoMdPersonAdd } from "react-icons/io";
 import { Link } from "react-router-dom";
 import ProfileMenu from "./ProfileMenu";
 
 function Header() {
     const dispatch = useDispatch();
+    const { requestDoc } = useSelector((state) => state.user);
     const { userDoc, error } = useSelector((state) => state.user);
     const { isLoggedIn } = useSelector((state) => state.auth);
-
+    const [pendingRequests, setPendingRequests] = useState(null);
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     useEffect(() => {
+        if (requestDoc && requestDoc.data.length > 0) {
+            setPendingRequests(requestDoc.data.length);
+        }
         if (isLoggedIn && !userDoc) {
             dispatch(profileThunk());
         }
     }, [dispatch, isLoggedIn]);
-
-
 
     const toggleDropdown = () => {
         setDropdownOpen((prevState) => !prevState);
@@ -31,41 +33,41 @@ function Header() {
             </div>
         );
     }
-    if(error){
+    if (error) {
         return null;
     }
 
-    
     return (
-        <div className="flex  justify-between items-center p-6 md:p-10 bg-gray-100">
-            <div className="relative flex items-center space-x-4 cursor-pointer" onClick={toggleDropdown}>
-                {userDoc?.data.photoUrl ? (
+        <div className=" p-6 md:p-10 bg-gradient-to-br text-white from-gray-800 via-gray-900 to-black">
+            <div className="flex items-center justify-between gap-6">
+                <div className="relative flex items-center cursor-pointer" onClick={toggleDropdown}>
                     <img
                         src={userDoc.data.photoUrl}
                         alt="Profile"
                         className="w-12 h-12 rounded-full object-cover"
                     />
-                ) : (
-                    <div className="w-12 h-12 rounded-full bg-gray-500 flex items-center justify-center text-white">
-                        <p className="text-xl">P</p>
-                    </div>
-                )}
-                <p className="text-lg text-gray-700">Profile</p>
-            </div>
+                    <p className="text-md ml-2 md:ml-4 md:text-lg">Profile</p>
+                </div>
 
-            {dropdownOpen && <ProfileMenu userDoc={userDoc.data} />}
+                {dropdownOpen && <ProfileMenu userDoc={userDoc.data} />}
 
-            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 text-center mt-4 md:mt-0">
-                <p className="text-xl md:text-2xl font-semibold">
-                    Welcome, <span className="text-blue-600">{userDoc?.data.firstName || "User"}</span>
-                </p>
-                <Link
-                    to="/requests"
-                    className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition-all duration-300"
-                >
-                    <IoMdNotifications className="text-2xl" />
-                    Requests
-                </Link>
+                <div className="flex items-center justify-between gap-6 text-center">
+                    <p className="text-md md:text-2xl font-semibold">
+                        Welcome, <span className="text-blue-600">{userDoc?.data.firstName || "User"}</span>
+                    </p>
+                    <Link
+                        to="/requests"
+                        className="relative bg-blue-500 text-white px-2 py-2  rounded-md shadow-md transition-all duration-300 flex items-center justify-center"
+                    >
+                        <IoMdPersonAdd className="text-xl md:text-2xl" />
+                        {pendingRequests > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+                                {pendingRequests}
+                            </span>
+                        )}
+                    </Link>
+
+                </div>
             </div>
         </div>
     );

@@ -1,18 +1,18 @@
 import React from 'react';
+import { FaTwitter, FaLinkedin, FaGithub } from 'react-icons/fa';
 
 function Footer() {
   return (
-    <footer className="bg-gray-800 text-gray-300 py-6">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          {/* Brand Section */}
-          <div className="mb-4 md:mb-0">
-            <h2 className="text-lg font-semibold text-white">DevTinder</h2>
+    <footer className="bg-gradient-to-br from-gray-800 via-gray-900 to-black text-gray-300 py-8">
+      <div className="container mx-auto px-6">
+        <div className="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+
+          <div className="text-center md:text-left">
+            <h2 className="text-2xl font-bold text-white mb-2">DevTinder</h2>
             <p className="text-sm">Connecting Developers Around the World</p>
           </div>
 
-          {/* Links Section */}
-          <div className="flex space-x-6">
+          <div className="flex flex-wrap justify-center space-x-6 md:space-x-8">
             <a
               href="/about"
               className="text-gray-300 hover:text-white text-sm transition duration-300"
@@ -33,15 +33,14 @@ function Footer() {
             </a>
           </div>
 
-          {/* Social Media Section */}
-          <div className="flex space-x-4">
+          <div className="flex space-x-6 justify-center">
             <a
               href="https://twitter.com"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-300 hover:text-white transition duration-300"
             >
-              <i className="fab fa-twitter"></i> Twitter
+              <FaTwitter className="text-2xl" />
             </a>
             <a
               href="https://linkedin.com"
@@ -49,7 +48,7 @@ function Footer() {
               rel="noopener noreferrer"
               className="text-gray-300 hover:text-white transition duration-300"
             >
-              <i className="fab fa-linkedin"></i> LinkedIn
+              <FaLinkedin className="text-2xl" />
             </a>
             <a
               href="https://github.com"
@@ -57,12 +56,12 @@ function Footer() {
               rel="noopener noreferrer"
               className="text-gray-300 hover:text-white transition duration-300"
             >
-              <i className="fab fa-github"></i> GitHub
+              <FaGithub className="text-2xl" />
             </a>
           </div>
         </div>
-        {/* Copyright Section */}
-        <div className="text-center text-sm mt-6 text-gray-400">
+
+        <div className="text-center text-sm mt-8 text-gray-400">
           &copy; {new Date().getFullYear()} DevTinder. All rights reserved.
         </div>
       </div>

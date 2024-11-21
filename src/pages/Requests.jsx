@@ -3,31 +3,17 @@ import axios from "axios";
 import { baseUrl } from "../assets/baseUrl";
 import { Link } from "react-router-dom";
 import Loaders from "../assets/Loaders";
+import { useSelector } from "react-redux";
 
 function Requests() {
-  const [requests, setRequests] = useState([]);
+  const { requestDoc } = useSelector((state) => state.user);
   const [error, setError] = useState(null);
   const [statusUpdates, setStatusUpdates] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [requests, setRequests] = useState([]);
 
   useEffect(() => {
-    const getRequests = async () => {
-      
-      try {
-        const response = await axios.get(
-          `${baseUrl}user/requests/recieved`,
-          { withCredentials: true }
-        );
-        setRequests(response.data.data);
-      } catch (error) {
-        setError(error);
-      }
-      finally{
-        setLoading(false);
-      }
-    };
-    getRequests();
-  }, []);
+    setRequests(requestDoc.data);
+  }, [requestDoc]);
 
   const updateStatusAndRemove = (id, status) => {
     setStatusUpdates((prev) => ({ ...prev, [id]: status }));
@@ -67,29 +53,34 @@ function Requests() {
     }
   };
 
-  
   if (error) {
-    return <div className=" h-screen flex flex-col gap-10 items-center justify-center  p-5 mb-4">
-      <p className="text-red-500 text-3xl text-center">You need to be logged in to see requests.</p>
-      <div className="flex items-center justify-center gap-5 text-white">
-        <Link to="/login" className="bg-blue-600 p-3 rounded-md">Login</Link>
-        <Link to="/signup" className="bg-green-600 p-3 rounded-md">Signup</Link>
+    return (
+      <div className="h-screen flex flex-col gap-10 items-center justify-center p-5 mb-4">
+        <p className="text-red-500 text-3xl text-center">
+          You need to be logged in to see requests.
+        </p>
+        <div className="flex items-center justify-center gap-5 text-white">
+          <Link to="/login" className="bg-blue-600 p-3 rounded-md">
+            Login
+          </Link>
+          <Link to="/signup" className="bg-green-600 p-3 rounded-md">
+            Signup
+          </Link>
+        </div>
       </div>
-    </div>
+    );
   }
+
   return (
     <div className="min-h-screen flex flex-col items-center p-4 bg-gray-100">
-      {loading && <Loaders/>}
       {requests.length === 0 && !error ? (
-        <div className="text-gray-600 text-center">
-          No requests at the moment.
-        </div>
+        <div className="text-gray-600 text-center">No requests at the moment.</div>
       ) : (
         <div className="w-full max-w-2xl bg-white shadow-md rounded-lg p-4 space-y-4">
           {requests.map((req) => (
             <div
               key={req._id}
-              className="flex flex-col sm:flex-row items-center justify-between bg-gray-50 p-4 rounded-lg shadow-sm hover:shadow-md transition"
+              className="flex flex-col sm:flex-row items-center justify-between  p-4 rounded-lg shadow-sm hover:shadow-md transition"
             >
               <div className="flex items-center space-x-4">
                 {req.fromId.photoUrl && (
@@ -113,10 +104,11 @@ function Requests() {
               </div>
               {statusUpdates[req._id] ? (
                 <p
-                  className={`mt-4 sm:mt-0 text-lg font-medium ${statusUpdates[req._id] === "Accepted"
-                    ? "text-green-600"
-                    : "text-red-600"
-                    }`}
+                  className={`mt-4 sm:mt-0 text-lg font-medium ${
+                    statusUpdates[req._id] === "Accepted"
+                      ? "text-green-600"
+                      : "text-red-600"
+                  }`}
                 >
                   {statusUpdates[req._id]}
                 </p>

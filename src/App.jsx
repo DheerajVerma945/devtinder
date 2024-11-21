@@ -5,7 +5,7 @@ import { Welcome, Login, Signup, Home } from './pages';
 import Requests from './pages/Requests';
 import Connections from './pages/Connections';
 import { useDispatch } from 'react-redux';
-import { profileThunk } from './store/userSlice';
+import { profileThunk, requestsThunk } from './store/userSlice';
 import { setIsLoggedIn } from './store/authSlice';
 import Loaders from './assets/Loaders';
 import HelpPage from './pages/help';
@@ -16,9 +16,10 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const checkAuthandReq = async () => {
       try {
         const response = await dispatch(profileThunk());
+        await dispatch(requestsThunk());
         if (!response.error) {
           dispatch(setIsLoggedIn(true));
         } else {
@@ -30,8 +31,9 @@ function App() {
         setLoading(false);
       }
     };
-    checkAuth();
+    checkAuthandReq();
   }, [dispatch]);
+
 
   const router = createBrowserRouter([
     {
@@ -46,7 +48,7 @@ function App() {
       path: "/",
       element: <Layout />,
       children: [
-        {path:"/help",element:<HelpPage/>},
+        { path: "/help", element: <HelpPage /> },
         { path: "/home", element: <Home /> },
         { path: "/requests", element: <Requests /> },
         { path: "user/connections", element: <Connections /> },

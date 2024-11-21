@@ -5,6 +5,7 @@ import { baseUrl } from "../assets/baseUrl";
 const initialState = {
     userDoc: null,
     error: null,
+    requestDoc:null,
 };
 
 export const profileThunk = createAsyncThunk(
@@ -22,6 +23,21 @@ export const profileThunk = createAsyncThunk(
     }
 );
 
+export const requestsThunk = createAsyncThunk(
+    'user/requests',
+    async(_,{rejectWithValue})=>{
+        try {
+            const response = await axios.get(
+                `${baseUrl}user/requests/recieved`,
+                {withCredentials:true},
+            );
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.resposne?.data?.error || "Unable to fetch requests at the moment")
+        }
+    }
+)
+
 const userSlice = createSlice({
     name: "User",
     initialState,
@@ -36,6 +52,13 @@ const userSlice = createSlice({
                 state.error = null; 
             })
             .addCase(profileThunk.rejected, (state, action) => {
+                state.error = action.payload;
+            })
+            .addCase(requestsThunk.fulfilled, (state, action) => {
+                state.requestDoc = action.payload;
+                state.error = null; 
+            })
+            .addCase(requestsThunk.rejected, (state, action) => {
                 state.error = action.payload;
             });
     },
