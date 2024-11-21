@@ -43,7 +43,14 @@ export const requestsThunk = createAsyncThunk(
 const userSlice = createSlice({
   name: "User",
   initialState,
-  reducers: {},
+  reducers: {
+    removeRequestDoc(state, action) {
+      const requestId = action.payload;
+      state.requestDoc.data = state.requestDoc.data.filter(
+        (request) => request._id !== requestId
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(profileThunk.pending, (state) => {
@@ -66,4 +73,5 @@ const userSlice = createSlice({
   },
 });
 
+export const {removeRequestDoc} = userSlice.actions;
 export default userSlice.reducer;

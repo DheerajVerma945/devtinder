@@ -14,13 +14,16 @@ function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
-    if (requestDoc && requestDoc.data.length > 0) {
+    if (requestDoc?.data?.length > 0) {
       setPendingRequests(requestDoc.data.length);
+    } else {
+      setPendingRequests(0);
     }
+
     if (isLoggedIn && !userDoc) {
       dispatch(profileThunk());
     }
-  }, [dispatch, isLoggedIn]);
+  }, [dispatch, isLoggedIn, requestDoc]);
 
   const toggleDropdown = () => {
     setDropdownOpen((prevState) => !prevState);
@@ -34,8 +37,8 @@ function Header() {
             You need to Login/Register.
           </h2>
           <p className="text-gray-400 mb-6">
-            If you wish to create a new account or having existing account.
-            Go ahead with options.
+            If you wish to create a new account or having existing account. Go
+            ahead with options.
           </p>
           <div className="flex items-center justify-center gap-5">
             <Link

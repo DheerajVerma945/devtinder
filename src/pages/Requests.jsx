@@ -3,9 +3,11 @@ import axios from "axios";
 import { baseUrl } from "../assets/baseUrl";
 import { Link } from "react-router-dom";
 import Loaders from "../assets/Loaders";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeRequestDoc} from "../store/userSlice";
 
 function Requests() {
+  const dispatch = useDispatch();
   const { requestDoc } = useSelector((state) => state.user);
   const [error, setError] = useState(null);
   const [statusUpdates, setStatusUpdates] = useState({});
@@ -25,18 +27,18 @@ function Requests() {
         delete updates[id];
         return updates;
       });
-    }, 2000);
+    }, 1000);
   };
 
   const handleAccept = async (id) => {
     try {
       setLoading(true);
-      await axios.post(
+      const reviewResposne = await axios.post(
         `${baseUrl}request/review/accepted/${id}`,
         {},
         { withCredentials: true }
       );
-      window.location.reload();
+      dispatch(removeRequestDoc(reviewResposne.data.data._id));
       updateStatusAndRemove(id, "Accepted");
     } catch (error) {
       setError(error);
@@ -48,11 +50,12 @@ function Requests() {
   const handleReject = async (id) => {
     try {
       setLoading(true);
-      await axios.post(
+      const reviewResponse =await axios.post(
         `${baseUrl}request/review/rejected/${id}`,
         {},
         { withCredentials: true }
       );
+      dispatch(removeRequestDoc(reviewResponse.data.data._id));
       updateStatusAndRemove(id, "Rejected");
     } catch (error) {
       setError(error);

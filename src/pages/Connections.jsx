@@ -14,7 +14,6 @@ function Connections() {
 
   const handleConnectionRemove = async () => {
     setShowConfirmationMessage(false);
-    console.log("Connection id", showEditConnection);
     setLoading(true);
     try {
       await axios.delete(`${baseUrl}removeConnection`, {
