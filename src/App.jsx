@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { profileThunk, requestsThunk } from './store/userSlice';
 import { setIsLoggedIn } from './store/authSlice';
 import Loaders from './assets/Loaders';
-import HelpPage from './pages/help';
+import HelpPage from './pages/Help';
 
 function App() {
   const dispatch = useDispatch();
