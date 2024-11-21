@@ -1,12 +1,11 @@
-import React from 'react';
-import { FaTwitter, FaLinkedin, FaGithub } from 'react-icons/fa';
+import React from "react";
+import { FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa";
 
 function Footer() {
   return (
     <footer className="bg-gradient-to-br from-gray-800 via-gray-900 to-black text-gray-300 py-8">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
-
           <div className="text-center md:text-left">
             <h2 className="text-2xl font-bold text-white mb-2">DevTinder</h2>
             <p className="text-sm">Connecting Developers Around the World</p>

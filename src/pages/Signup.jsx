@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
-import { baseUrl } from '../assets/baseUrl';
-import axios from 'axios';
-import Loaders from '../assets/Loaders';
-import { useSelector } from 'react-redux';
+import React, { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { baseUrl } from "../assets/baseUrl";
+import axios from "axios";
+import Loaders from "../assets/Loaders";
+import { useSelector } from "react-redux";
 
 function Signup() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [loader, setLoader] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
@@ -22,43 +22,47 @@ function Signup() {
   const { isLoggedIn } = useSelector((state) => state.auth);
 
   const handleSignup = async () => {
-    setError('');
-    setSuccessMessage('');
+    setError("");
+    setSuccessMessage("");
     setLoader(true);
 
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
-      setError('All fields are required.');
+      setError("All fields are required.");
       setLoader(false);
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+      setError("Passwords do not match.");
       setLoader(false);
       return;
     }
 
     try {
       const url = `${baseUrl}signup`;
-      const response = await axios.post(url, { firstName, lastName, emailId: email, password });
-      setSuccessMessage('You are registered successfully!');
-      setError('');
-      navigate('/login');
+      const response = await axios.post(url, {
+        firstName,
+        lastName,
+        emailId: email,
+        password,
+      });
+      setSuccessMessage("You are registered successfully!");
+      setError("");
+      navigate("/login");
     } catch (err) {
-      if (err.response?.data?.error?.includes('E11000 duplicate key error')) {
-        setError('Email already exists.');
+      if (err.response?.data?.error?.includes("E11000 duplicate key error")) {
+        setError("Email already exists.");
       } else {
-        setError(err.response?.data?.error || 'An unexpected error occurred.');
+        setError(err.response?.data?.error || "An unexpected error occurred.");
       }
-    }
-    finally {
+    } finally {
       setLoader(false);
     }
   };
 
   if (isLoggedIn) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white">
+      <div className=" flex flex-col items-center justify-center h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white">
         <div className="bg-gray-800 shadow-md rounded-lg p-8 text-center max-w-md">
           <h2 className="text-2xl font-semibold text-pink-500 mb-4">
             You’re already logged in.
@@ -78,11 +82,15 @@ function Signup() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white relative">
+    <div className="pt-5 flex flex-col items-center justify-center h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white relative">
       {loader && <Loaders />}
-      <h1 className="text-4xl font-extrabold tracking-wide mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-500 text-center">Create Account and Get Started</h1>
+      <h1 className="text-4xl font-extrabold tracking-wide mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-500 text-center">
+        Create Account and Get Started
+      </h1>
       <div className="shadow-2xl bg-gray-900 rounded px-8 py-6 w-full max-w-md relative">
-        {successMessage && <p className="text-green-500 text-sm mb-4">{successMessage}</p>}
+        {successMessage && (
+          <p className="text-green-500 text-sm mb-4">{successMessage}</p>
+        )}
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
         <div className="mb-4">
@@ -119,7 +127,7 @@ function Signup() {
           <label className="block text-sm font-medium mb-2">Password</label>
           <div className="relative">
             <input
-              type={passwordVisible ? 'text' : 'password'}
+              type={passwordVisible ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full bg-gray-800 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 pr-10"
@@ -135,10 +143,12 @@ function Signup() {
         </div>
 
         <div className="mb-6 relative">
-          <label className="block text-sm font-medium mb-2">Confirm Password</label>
+          <label className="block text-sm font-medium mb-2">
+            Confirm Password
+          </label>
           <div className="relative">
             <input
-              type={confirmPasswordVisible ? 'text' : 'password'}
+              type={confirmPasswordVisible ? "text" : "password"}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full bg-gray-800 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 pr-10"
@@ -148,7 +158,11 @@ function Signup() {
               onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none"
             >
-              {confirmPasswordVisible ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+              {confirmPasswordVisible ? (
+                <FaEyeSlash size={18} />
+              ) : (
+                <FaEye size={18} />
+              )}
             </button>
           </div>
         </div>
@@ -161,7 +175,7 @@ function Signup() {
         </button>
 
         <p className="text-center text-sm mt-4 text-gray-600">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <Link to="/login" className="text-green-600 hover:underline">
             Login
           </Link>

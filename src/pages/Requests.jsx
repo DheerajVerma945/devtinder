@@ -10,6 +10,7 @@ function Requests() {
   const [error, setError] = useState(null);
   const [statusUpdates, setStatusUpdates] = useState({});
   const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setRequests(requestDoc.data);
@@ -29,19 +30,24 @@ function Requests() {
 
   const handleAccept = async (id) => {
     try {
+      setLoading(true);
       await axios.post(
         `${baseUrl}request/review/accepted/${id}`,
         {},
         { withCredentials: true }
       );
+      window.location.reload();
       updateStatusAndRemove(id, "Accepted");
     } catch (error) {
       setError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleReject = async (id) => {
     try {
+      setLoading(true);
       await axios.post(
         `${baseUrl}request/review/rejected/${id}`,
         {},
@@ -50,6 +56,8 @@ function Requests() {
       updateStatusAndRemove(id, "Rejected");
     } catch (error) {
       setError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,15 +80,18 @@ function Requests() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center p-4 bg-gray-100">
+    <div className="min-h-screen flex flex-col  items-center p-4 ">
+      {loading && <Loaders />}
       {requests.length === 0 && !error ? (
-        <div className="text-gray-600 text-center">No requests at the moment.</div>
+        <div className="text-gray-900 flex items-center justify-center h-screen text-center">
+          No requests at the moment.
+        </div>
       ) : (
-        <div className="w-full max-w-2xl bg-white shadow-md rounded-lg p-4 space-y-4">
+        <div className="w-full max-w-2xl bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white shadow-md rounded-lg p-4 space-y-4">
           {requests.map((req) => (
             <div
               key={req._id}
-              className="flex flex-col sm:flex-row items-center justify-between  p-4 rounded-lg shadow-sm hover:shadow-md transition"
+              className="flex border-b-2 flex-col sm:flex-row items-center justify-between  p-4 rounded-lg shadow-sm hover:shadow-md transition"
             >
               <div className="flex items-center space-x-4">
                 {req.fromId.photoUrl && (
@@ -91,10 +102,10 @@ function Requests() {
                   />
                 )}
                 <div>
-                  <p className="text-lg font-semibold text-gray-800">
+                  <p className="text-lg font-semibold ">
                     {req.fromId.firstName} {req.fromId.lastName}
                   </p>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm  mt-1">
                     <strong>Skills:</strong>{" "}
                     {req.fromId.skills && req.fromId.skills.length > 0
                       ? req.fromId.skills.join(", ")

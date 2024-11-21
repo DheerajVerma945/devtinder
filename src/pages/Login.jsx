@@ -1,40 +1,44 @@
-import React, { useState } from 'react';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import Loaders from '../assets/Loaders';
-import { useDispatch, useSelector } from 'react-redux';
-import { baseUrl } from '../assets/baseUrl';
-import { setIsLoggedIn } from '../store/authSlice';
-import { profileThunk } from '../store/userSlice';
+import React, { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import Loaders from "../assets/Loaders";
+import { useDispatch, useSelector } from "react-redux";
+import { baseUrl } from "../assets/baseUrl";
+import { setIsLoggedIn } from "../store/authSlice";
+import { profileThunk } from "../store/userSlice";
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loader, setLoader] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
   const { isLoggedIn } = useSelector((state) => state.auth);
-  const dispatch  = useDispatch();
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
-    setError('');
+    setError("");
     setLoader(true);
     if (!email || !password) {
-      setError('Both email and password are required.');
+      setError("Both email and password are required.");
       setLoader(false);
       return;
     }
 
     try {
       const url = `${baseUrl}login`;
-      await axios.post(url, { emailId:email, password },{withCredentials:true});
+      await axios.post(
+        url,
+        { emailId: email, password },
+        { withCredentials: true }
+      );
       dispatch(setIsLoggedIn(true));
       dispatch(profileThunk());
-      navigate('/home');
+      navigate("/home");
     } catch (err) {
-      setError(err.response?.data?.error || 'An unexpected error occurred.');
+      setError(err.response?.data?.error || "An unexpected error occurred.");
     } finally {
       setLoader(false);
     }
@@ -48,7 +52,8 @@ function Login() {
             You’re already logged in.
           </h2>
           <p className="text-gray-400 mb-6">
-            If you wish to log in with a different account, please log out first.
+            If you wish to log in with a different account, please log out
+            first.
           </p>
           <Link
             to="/home"
@@ -68,7 +73,6 @@ function Login() {
         Welcome back
       </h1>
       <div className="bg-gray-900 shadow-lg rounded-lg px-8 py-6 max-w-md w-full text-white">
-
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <div className="mb-4">
           <label className="block text-sm font-medium mb-2">Email</label>
@@ -83,7 +87,7 @@ function Login() {
           <label className="block text-sm font-medium mb-2">Password</label>
           <div className="relative">
             <input
-              type={passwordVisible ? 'text' : 'password'}
+              type={passwordVisible ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
@@ -101,10 +105,10 @@ function Login() {
           onClick={handleLogin}
           className="w-full bg-blue-600 py-2 rounded-md text-lg font-medium hover:bg-blue-700 transition duration-300"
         >
-          {loader? "Logging in":"Login"}
+          {loader ? "Logging in" : "Login"}
         </button>
         <p className="text-center text-sm mt-4 text-gray-400">
-          Don’t have an account?{' '}
+          Don’t have an account?{" "}
           <Link to="/signup" className="text-blue-700 hover:underline">
             Sign Up
           </Link>

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 function Welcome() {
   return (
@@ -9,7 +9,8 @@ function Welcome() {
           Welcome to DevTinder
         </h1>
         <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 text-gray-300">
-          Discover developers, connect, and build amazing projects together. Your journey starts here.
+          Discover developers, connect, and build amazing projects together.
+          Your journey starts here.
         </p>
         <div className="flex space-x-8 justify-center mb-16">
           <Link
@@ -26,11 +27,14 @@ function Welcome() {
           </Link>
         </div>
         <p className="text-center text-lg text-gray-400">
-          Join the community and start building together. Let's make magic happen!
+          Join the community and start building together. Let's make magic
+          happen!
         </p>
       </div>
       <div className="absolute bottom-8 text-center w-full">
-        <p className="text-gray-400 text-sm">© 2024 DevTinder. All Rights Reserved.</p>
+        <p className="text-gray-400 text-sm">
+          © 2024 DevTinder. All Rights Reserved.
+        </p>
       </div>
     </div>
   );
