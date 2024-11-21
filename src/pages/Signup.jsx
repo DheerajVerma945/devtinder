@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { baseUrl } from '../assets/baseUrl';
 import axios from 'axios';
 import Loaders from '../assets/Loaders';
+import { useSelector } from 'react-redux';
 
 function Signup() {
   const [firstName, setFirstName] = useState('');
@@ -17,6 +18,8 @@ function Signup() {
   const [loader, setLoader] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const handleSignup = async () => {
     setError('');
@@ -42,23 +45,45 @@ function Signup() {
       setError('');
       navigate('/login');
     } catch (err) {
-      setError(err.response?.data?.error || 'An unexpected error occurred.');
-    } finally {
+      if (err.response?.data?.error?.includes('E11000 duplicate key error')) {
+        setError('Email already exists.');
+      } else {
+        setError(err.response?.data?.error || 'An unexpected error occurred.');
+      }
+    }
+    finally {
       setLoader(false);
     }
   };
 
+  if (isLoggedIn) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white">
+        <div className="bg-gray-800 shadow-md rounded-lg p-8 text-center max-w-md">
+          <h2 className="text-2xl font-semibold text-pink-500 mb-4">
+            You’re already logged in.
+          </h2>
+          <p className="text-gray-400 mb-6">
+            If you wish to create a new account, please log out first.
+          </p>
+          <Link
+            to="/home"
+            className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+          >
+            Go Back to Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen m-20 bg-gray-100 text-gray-800 relative">
-      {loader && (
-        <Loaders />
-      )}
-      <h1 className="text-3xl font-bold mb-6">Sign Up</h1>
-      <div className="bg-white shadow-md rounded px-8 py-6 w-full max-w-md relative">
+    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white relative">
+      {loader && <Loaders />}
+      <h1 className="text-4xl font-extrabold tracking-wide mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-500 text-center">Create Account and Get Started</h1>
+      <div className="shadow-2xl bg-gray-900 rounded px-8 py-6 w-full max-w-md relative">
         {successMessage && <p className="text-green-500 text-sm mb-4">{successMessage}</p>}
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-
-
 
         <div className="mb-4">
           <label className="block text-sm font-medium mb-2">First Name</label>
@@ -66,7 +91,7 @@ function Signup() {
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full px-3 bg-gray-800 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
 
@@ -76,7 +101,7 @@ function Signup() {
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full px-3 bg-gray-800 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
 
@@ -86,7 +111,7 @@ function Signup() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full bg-gray-800 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
 
@@ -97,7 +122,7 @@ function Signup() {
               type={passwordVisible ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 pr-10"
+              className="w-full bg-gray-800 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 pr-10"
             />
             <button
               type="button"
@@ -116,7 +141,7 @@ function Signup() {
               type={confirmPasswordVisible ? 'text' : 'password'}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 pr-10"
+              className="w-full bg-gray-800 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 pr-10"
             />
             <button
               type="button"
@@ -132,10 +157,10 @@ function Signup() {
           onClick={handleSignup}
           className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition duration-300"
         >
-          Sign Up
+          {loader ? "Signing up" : "Sign up"}
         </button>
 
-        <p className="text-center text-sm mt-4">
+        <p className="text-center text-sm mt-4 text-gray-600">
           Already have an account?{' '}
           <Link to="/login" className="text-green-600 hover:underline">
             Login

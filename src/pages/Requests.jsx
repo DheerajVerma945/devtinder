@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../assets/baseUrl";
+import { Link } from "react-router-dom";
+import Loaders from "../assets/Loaders";
 
 function Requests() {
   const [requests, setRequests] = useState([]);
   const [error, setError] = useState(null);
   const [statusUpdates, setStatusUpdates] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getRequests = async () => {
+      
       try {
         const response = await axios.get(
           `${baseUrl}user/requests/recieved`,
@@ -17,6 +21,9 @@ function Requests() {
         setRequests(response.data.data);
       } catch (error) {
         setError(error);
+      }
+      finally{
+        setLoading(false);
       }
     };
     getRequests();
@@ -60,14 +67,20 @@ function Requests() {
     }
   };
 
+  
+  if (error) {
+    return <div className=" h-screen flex flex-col gap-10 items-center justify-center  p-5 mb-4">
+      <p className="text-red-500 text-3xl text-center">You need to be logged in to see requests.</p>
+      <div className="flex items-center justify-center gap-5 text-white">
+        <Link to="/login" className="bg-blue-600 p-3 rounded-md">Login</Link>
+        <Link to="/signup" className="bg-green-600 p-3 rounded-md">Signup</Link>
+      </div>
+    </div>
+  }
   return (
     <div className="min-h-screen flex flex-col items-center p-4 bg-gray-100">
-      {error && (
-        <div className="text-red-500 text-center mb-4">
-          {error.message || "An error occurred. Please try again later."}
-        </div>
-      )}
-      {requests.length === 0 ? (
+      {loading && <Loaders/>}
+      {requests.length === 0 && !error ? (
         <div className="text-gray-600 text-center">
           No requests at the moment.
         </div>
@@ -100,11 +113,10 @@ function Requests() {
               </div>
               {statusUpdates[req._id] ? (
                 <p
-                  className={`mt-4 sm:mt-0 text-lg font-medium ${
-                    statusUpdates[req._id] === "Accepted"
-                      ? "text-green-600"
-                      : "text-red-600"
-                  }`}
+                  className={`mt-4 sm:mt-0 text-lg font-medium ${statusUpdates[req._id] === "Accepted"
+                    ? "text-green-600"
+                    : "text-red-600"
+                    }`}
                 >
                   {statusUpdates[req._id]}
                 </p>

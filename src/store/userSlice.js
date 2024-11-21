@@ -17,7 +17,7 @@ export const profileThunk = createAsyncThunk(
             );
             return response.data; 
         } catch (error) {
-            return rejectWithValue(error.response?.data?.error || "An error occurred while fetching profile");
+            return rejectWithValue(error.response?.data?.error || "User needs to be logged in");
         }
     }
 );
