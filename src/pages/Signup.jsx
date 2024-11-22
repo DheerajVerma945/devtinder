@@ -48,7 +48,9 @@ function Signup() {
       });
       setSuccessMessage("You are registered successfully!");
       setError("");
-      navigate("/login");
+      setTimeout(() => {
+        navigate("/login")
+      }, 2000);
     } catch (err) {
       if (err.response?.data?.error?.includes("E11000 duplicate key error")) {
         setError("Email already exists.");

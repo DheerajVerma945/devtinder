@@ -1,7 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 function Welcome() {
+
+  const {isLoggedIn} = useSelector( (state)=>state.auth);
+  const navigate = useNavigate();
+
+  useEffect( ()=>{
+    if(isLoggedIn){
+      navigate("/home");
+    }
+  },[]);
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white">
       <div className="text-center">

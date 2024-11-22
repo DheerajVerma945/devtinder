@@ -34,12 +34,12 @@ function Login() {
         { emailId: email, password },
         { withCredentials: true }
       );
-      dispatch(setIsLoggedIn(true));
-      dispatch(profileThunk());
+      await dispatch(profileThunk());
       navigate("/home");
     } catch (err) {
       setError(err.response?.data?.error || "An unexpected error occurred.");
     } finally {
+      dispatch(setIsLoggedIn(true));
       setLoader(false);
     }
   };
