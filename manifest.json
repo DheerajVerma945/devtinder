@@ -3,7 +3,7 @@
     "short_name": "devTinder",
     "description": "A place for developers to connect and collaborate.",
     "display": "standalone",
-    "start_url": "/home",
+    "start_url": "/",
     "background_color": "#6A829A",
     "theme_color": "#6A829A",
     "orientation":"portrait-primary",
