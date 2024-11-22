@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function HelpPage() {
   return (
-    <div className="bg-gray-50 text-gray-800 p-8">
+    <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white p-8">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-blue-600 mb-8">
           Welcome to DevTinder Help Center
@@ -154,7 +154,7 @@ function HelpPage() {
           <h2 className="text-3xl font-semibold text-blue-500 mb-4">FAQ</h2>
           <div className="space-y-4">
             <div>
-              <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+              <h3 className="text-2xl font-semibold text-white mb-2">
                 Q: How do I reset my password?
               </h3>
               <p className="text-lg leading-relaxed">
@@ -164,7 +164,7 @@ function HelpPage() {
               </p>
             </div>
             <div>
-              <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+              <h3 className="text-2xl font-semibold text-white mb-2">
                 Q: Can I delete my account?
               </h3>
               <p className="text-lg leading-relaxed">
@@ -174,7 +174,7 @@ function HelpPage() {
               </p>
             </div>
             <div>
-              <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+              <h3 className="text-2xl font-semibold text-white mb-2">
                 Q: How do I contact support?
               </h3>
               <p className="text-lg leading-relaxed">

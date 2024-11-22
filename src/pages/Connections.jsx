@@ -52,8 +52,12 @@ function Connections() {
   }, []);
 
   return (
-    <div>
-      {loading && <Loaders />}
+    <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-black">
+      {loading && (
+        <div className="h-screen">
+          <Loaders />
+        </div>
+      )}
       {showConfirmationMessage && (
         <div className="absolute inset-0 bg-gray-800 bg-opacity-60 z-50 flex items-center justify-center">
           <div className="bg-white rounded-lg shadow-xl p-4 md:p-6 w-full sm:w-10/12 md:w-1/3">
@@ -90,12 +94,12 @@ function Connections() {
 
       {!error && (
         <ul
-          className={`mt-10 flex flex-col items-start h-screen gap-6 ${
+          className={`  flex flex-col items-start h-screen gap-6 ${
             userConnections.length === 0 ? "hidden" : ""
           }`}
         >
           <h1
-            className={`text-3xl font-bold m-5 ${
+            className={`text-3xl font-bold m-5 text-white ${
               userConnections.length > 0 ? "" : "hidden"
             }`}
           >
@@ -105,7 +109,7 @@ function Connections() {
           {userConnections.map((connection) => (
             <li
               key={connection._id}
-              className="flex relative flex-row bg-gray-300 p-6 rounded-lg shadow-md w-full gap-4 hover:shadow-lg transition-all"
+              className="flex  bg-gray-900 relative flex-row  p-6 rounded-lg shadow-md w-full gap-4 hover:shadow-lg transition-all"
             >
               <img
                 src={connection.photoUrl}
@@ -123,7 +127,7 @@ function Connections() {
                   className="relative cursor-pointer"
                   onClick={() => setShowEditConnection(connection._id)}
                 >
-                  <FaEllipsisV />
+                  <FaEllipsisV className="text-white"/>
                   {showEditConnection === connection._id && (
                     <button
                       className="absolute right-10 -top-3 bg-red-500 text-white p-3 inline whitespace-nowrap rounded-md"
@@ -141,8 +145,8 @@ function Connections() {
           ))}
         </ul>
       )}
-      {userConnections.length === 0 && (
-        <div className="flex justify-center items-center h-screen text-gray-700">
+      {!loading && userConnections.length === 0 && (
+        <div className="flex justify-center items-center h-screen text-gray-500">
           <p className="text-2xl font-bold text-center">
             No connections available
           </p>

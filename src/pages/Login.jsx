@@ -34,8 +34,8 @@ function Login() {
         { emailId: email, password },
         { withCredentials: true }
       );
-      await dispatch(profileThunk());
-      await dispatch(requestsThunk());
+      dispatch(profileThunk());
+      dispatch(requestsThunk());
       navigate("/home");
     } catch (err) {
       setError(err.response?.data?.error || "An unexpected error occurred.");
