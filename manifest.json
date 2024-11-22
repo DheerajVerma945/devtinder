@@ -2,10 +2,11 @@
     "name": "devTinder",
     "short_name": "devTinder",
     "description": "A place for developers to connect and collaborate.",
-    "start_url": "/",
     "display": "standalone",
+    "start_url": "/home",
     "background_color": "#6A829A",
     "theme_color": "#6A829A",
+    "orientation":"portrait-primary",
     "icons": [
       {
         "src": "utils/Logo.webp",
