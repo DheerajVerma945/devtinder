@@ -6,7 +6,7 @@ import Loaders from "../assets/Loaders";
 import { useDispatch, useSelector } from "react-redux";
 import { baseUrl } from "../assets/baseUrl";
 import { setIsLoggedIn } from "../store/authSlice";
-import { profileThunk } from "../store/userSlice";
+import { profileThunk, requestsThunk } from "../store/userSlice";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -35,6 +35,7 @@ function Login() {
         { withCredentials: true }
       );
       await dispatch(profileThunk());
+      await dispatch(requestsThunk());
       navigate("/home");
     } catch (err) {
       setError(err.response?.data?.error || "An unexpected error occurred.");

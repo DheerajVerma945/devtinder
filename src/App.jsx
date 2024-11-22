@@ -9,6 +9,7 @@ import { profileThunk, requestsThunk } from './store/userSlice';
 import { setIsLoggedIn } from './store/authSlice';
 import Loaders from './assets/Loaders';
 import HelpPage from './pages/Help';
+import User from './pages/User';
 
 function App() {
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ function App() {
       element: <Layout />,
       children: [
         { path: "/help", element: <HelpPage /> },
+        { path: "/user/:userId", element: <User /> },
         { path: "/home", element: <Home /> },
         { path: "/requests", element: <Requests /> },
         { path: "user/connections", element: <Connections /> },

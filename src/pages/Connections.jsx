@@ -56,15 +56,15 @@ function Connections() {
       {loading && <Loaders />}
       {showConfirmationMessage && (
         <div className="absolute inset-0 bg-gray-800 bg-opacity-60 z-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3">
-            <h2 className="text-xl font-semibold text-gray-800 text-center mb-4">
-              Are you sure you want remove this connection? This action is
+          <div className="bg-white rounded-lg shadow-xl p-4 md:p-6 w-full sm:w-10/12 md:w-1/3">
+            <h2 className="text-sm sm:text-base md:text-xl font-semibold text-gray-800 text-center mb-3 sm:mb-4">
+              Are you sure you want to remove this connection? This action is
               irreversible.
             </h2>
-            <div className="flex items-center justify-center space-x-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-4">
               <button
                 onClick={handleConnectionRemove}
-                className="px-6 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg font-medium shadow-sm transition duration-200"
+                className="w-full sm:w-auto px-4 sm:px-6 py-2 text-sm sm:text-base text-white bg-red-500 hover:bg-red-600 rounded-lg font-medium shadow-sm transition duration-200"
               >
                 Remove
               </button>
@@ -73,7 +73,7 @@ function Connections() {
                   setShowConfirmationMessage(false);
                   setShowEditConnection(null);
                 }}
-                className="px-6 py-2 text-gray-700 bg-gray-300 hover:bg-gray-400 rounded-lg font-medium shadow-sm transition duration-200"
+                className="w-full sm:w-auto px-4 sm:px-6 py-2 text-sm sm:text-base text-gray-700 bg-gray-300 hover:bg-gray-400 rounded-lg font-medium shadow-sm transition duration-200"
               >
                 Cancel
               </button>

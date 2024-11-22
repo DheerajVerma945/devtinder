@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loaders from "../assets/Loaders";
+import { baseUrl } from "../assets/baseUrl";
 
 function User() {
   const { userId } = useParams();
@@ -13,12 +14,12 @@ function User() {
     const getUser = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`/user/${userId}`, {
+        const response = await axios.get(`${baseUrl}user/${userId}`, {
           withCredentials: true,
         });
-        setUser(response.data);
+        setUser(response?.data?.data);
       } catch (err) {
-        setError(err);
+        setError(err.response.data);
       } finally {
         setLoading(false);
       }
@@ -63,10 +64,10 @@ function User() {
               </p>
               <div className="mt-4">
                 <p className="text-gray-500">
-                  <span className="font-medium">Age:</span> {user.age}
+                  <span className="font-medium">Age:</span> {user.age || "Age not provided"}
                 </p>
                 <p className="text-gray-500 mt-2">
-                  <span className="font-medium">Gender:</span> {user.gender}
+                  <span className="font-medium">Gender:</span> {user.gender || "Gender not specified"}
                 </p>
               </div>
               <div className="mt-6">
