@@ -97,7 +97,7 @@ function ProfileMenu({ userDoc }) {
             Update Profile
           </Link>
           <Link
-            to="/change-password"
+            to="/profile/change-password"
             className="py-2 md:px-4 text-md md:text-lg hover:bg-blue-800 rounded-md text-white mb-2"
             onClick={handleMenuItemClick}
           >

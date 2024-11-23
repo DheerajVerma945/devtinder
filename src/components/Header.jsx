@@ -58,7 +58,7 @@ function Header() {
       </div>
     );
   }
-  if (error) {
+  else if (error) {
     return null;
   }
 
@@ -70,7 +70,7 @@ function Header() {
           onClick={toggleDropdown}
         >
           <img
-            src={userDoc.data.photoUrl}
+            src={userDoc?.data?.photoUrl}
             alt="Profile"
             className="w-12 h-12 rounded-full object-cover"
           />

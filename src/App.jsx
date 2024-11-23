@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import Layout from './routing/Layout';
-import { createBrowserRouter, RouterProvider, useNavigate } from 'react-router-dom';
-import { Welcome, Login, Signup, Home } from './pages';
-import Requests from './pages/Requests';
-import Connections from './pages/Connections';
-import { useDispatch } from 'react-redux';
-import { profileThunk, requestsThunk } from './store/userSlice';
-import { setIsLoggedIn } from './store/authSlice';
-import Loaders from './assets/Loaders';
-import HelpPage from './pages/Help';
-import User from './pages/User';
-import UpdateProfile from './pages/UpdateProfile';
+import React, { useEffect, useState } from "react";
+import Layout from "./routing/Layout";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useNavigate,
+} from "react-router-dom";
+import { Welcome, Login, Signup, Home } from "./pages";
+import Requests from "./pages/Requests";
+import Connections from "./pages/Connections";
+import { useDispatch } from "react-redux";
+import { profileThunk, requestsThunk } from "./store/userSlice";
+import { setIsLoggedIn } from "./store/authSlice";
+import Loaders from "./assets/Loaders";
+import HelpPage from "./pages/Help";
+import User from "./pages/User";
+import UpdateProfile from "./pages/UpdateProfile";
+import ChangePass from "./pages/ChangePass";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,21 +41,20 @@ function App() {
     checkAuthandReq();
   }, [dispatch]);
 
-
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Welcome />
+      element: <Welcome />,
     },
     { path: "/signup", element: <Signup /> },
     { path: "/login", element: <Login /> },
 
     {
-
       path: "/",
       element: <Layout />,
       children: [
         { path: "/help", element: <HelpPage /> },
+        { path: "profile/change-password", element: <ChangePass /> },
         { path: "/update-profile", element: <UpdateProfile /> },
         { path: "/user/:userId", element: <User /> },
         { path: "/home", element: <Home /> },
@@ -58,14 +62,11 @@ function App() {
         { path: "user/connections", element: <Connections /> },
       ],
     },
-
   ]);
   if (loading) {
-    return <Loaders />
+    return <Loaders />;
   }
-  return (
-    <RouterProvider router={router} />
-  )
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;
